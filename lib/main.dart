@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'journal app',
         theme: ThemeData(
+          primarySwatch: Colors.blue,
           scaffoldBackgroundColor: Colors.black45
         ),
         home: const BottomNavBarV2(),

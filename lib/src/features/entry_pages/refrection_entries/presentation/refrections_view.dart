@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-// import 'package:timeline_tile/timeline_tile.dart';
-// import 'package:intl/intl.dart';
-// import 'dart:io';
+import 'package:intl/intl.dart';
+
 import '../data/dataentry/refrection_data_entry.dart';
 
 class ViewEntriesPage extends StatelessWidget {
@@ -37,53 +36,24 @@ class ViewEntriesPage extends StatelessWidget {
                 child: Card(
                   margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                   elevation: 3.0,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Wrap(
-                          alignment: WrapAlignment.start,
-                          spacing: 8.0,
-                          runSpacing: 4.0,
-                          children: List<Widget>.generate(iconWidgets.length, (i) {
-                            return Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.grey[300],
-                                  child: iconWidgets[i],
-                                ),
-                                const SizedBox(width: 8.0),
-                                Container(
-                                  color: Colors.grey,
-                                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                                  child: Text(
-                                    categoryItems[i],
-                                    style: const TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          }),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildDateHeader(entry.date),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildCategorySection(iconWidgets, categoryItems),
+                            const SizedBox(height: 16.0),
+                            _buildContentSection('Grateful for:', entry.gratefulFor),
+                            const SizedBox(height: 16.0),
+                            _buildContentSection('Other thoughts:', entry.otherThoughts),
+                          ],
                         ),
-                        const SizedBox(height: 8.0),
-                        const Text(
-                          'Grateful for:',
-                          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-                        ),
-                        Text(entry.gratefulFor, style: const TextStyle(fontSize: 16.0)),
-                        const SizedBox(height: 8.0),
-                        const Text(
-                          'Other thoughts:',
-                          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-                        ),
-                        Text(entry.otherThoughts, style: const TextStyle(fontSize: 16.0)),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               );
@@ -91,6 +61,76 @@ class ViewEntriesPage extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  Widget _buildDateHeader(DateTime? date) {
+    if (date == null) return SizedBox.shrink();
+    
+    final dayMonth = DateFormat('EEEE, MMMM d').format(date);
+    final year = DateFormat('yyyy').format(date);
+
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      color: Colors.grey[200],
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            dayMonth,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
+          ),
+          Text(
+            year,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCategorySection(List<Icon> iconWidgets, List<String> categoryItems) {
+    return Wrap(
+      alignment: WrapAlignment.start,
+      spacing: 8.0,
+      runSpacing: 8.0,
+      children: List<Widget>.generate(iconWidgets.length, (i) {
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          decoration: BoxDecoration(
+            color: Colors.grey[300],
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              iconWidgets[i],
+              SizedBox(width: 4.0),
+              Text(
+                categoryItems[i],
+                style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        );
+      }),
+    );
+  }
+
+  Widget _buildContentSection(String title, String content) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.grey[700]),
+        ),
+        SizedBox(height: 4.0),
+        Text(
+          content,
+          style: TextStyle(fontSize: 16.0),
+        ),
+      ],
     );
   }
 

@@ -5,9 +5,10 @@ import 'package:myapp/src/features/entry_pages/moods_entry/moods_entry_screen.da
 import '../features/analytics/anlytic_screen.dart';
 //import '../features/entry_pages/moods_entry/pressentation/moodlogscreen.dart';
 import '../features/calendar/calendar.dart';
+import '../features/entry_pages/new/combinedview.dart';
 import '../features/entry_pages/presentations.dart';
 import '../features/entry_pages/refrection_entries/presentation/refrections_entry_page.dart';
-import '../features/entry_pages/refrection_entries/presentation/refrections_view.dart';
+// import '../features/entry_pages/refrection_entries/presentation/refrections_view.dart';
 
 class BottomNavBarV2 extends StatefulWidget {
   const BottomNavBarV2({super.key});
@@ -27,7 +28,8 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> with SingleTickerProvid
     //const HomeScreen(),
     const AnalyticsScreen(),
     const MyHomePage( title: 'Calendar'),
-     ViewEntriesPage(),
+     ViewEntriesPage1(),
+    //  ViewEntriesPage(),
   ];
 
   @override

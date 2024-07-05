@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'refrection_data_entry.g.dart';
 
 @HiveType(typeId: 2)
-class JournalEntry {
+class JournalEntry extends HiveObject {
   @HiveField(0)
   String category;
 
@@ -26,6 +26,7 @@ class JournalEntry {
     required this.date,
     List<int>? iconCodes,
   }) : iconCodes = iconCodes ?? [];
+
 }
 
 // refrection_data_entry.g.dart
